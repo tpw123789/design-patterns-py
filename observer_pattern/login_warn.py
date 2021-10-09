@@ -34,7 +34,7 @@ class SmsSender(Observer):
     """訊息發送"""
     def update(self, observer, obj):
         print('[訊息發送] ' + obj['name'] + '您好!檢測到您的帳戶可能登錄異常。最近一次登錄資訊:\n' +
-              '登錄地區: ' + obj['region'] + '登錄ip: ' + obj['ip'] + '登錄時間: ' +
+              '登錄地區:' + obj['region'] + ' 登錄ip:' + obj['ip'] + ' 登錄時間:' +
               time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(obj['time']))
               )
 
@@ -43,7 +43,7 @@ class MailSender(Observer):
     """訊息發送"""
     def update(self, observer, obj):
         print('[郵件發送] ' + obj['name'] + '您好!檢測到您的帳戶可能登錄異常。最近一次登錄資訊:\n' +
-              '登錄地區: ' + obj['region'] + '登錄ip: ' + obj['ip'] + '登錄時間: ' +
+              '登錄地區:' + obj['region'] + ' 登錄ip:' + obj['ip'] + ' 登錄時間:' +
               time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(obj['time']))
               )
 

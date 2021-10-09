@@ -4,7 +4,7 @@ from abc import ABCMeta, abstractmethod
 class Observer(metaclass=ABCMeta):
     """觀察者的基類別"""
     @abstractmethod
-    def update(self, observer, num):
+    def update(self, observer, obj):
         pass
 
 
