@@ -19,9 +19,9 @@ class Observable:
     def remove_observer(self, observer):
         self._observer.remove(observer)
 
-    def notify_observers(self, num=0):
+    def notify_observers(self, obj=0):
         for o in self._observer:
-            o.update(self, num)
+            o.update(self, obj)
 
 
 
