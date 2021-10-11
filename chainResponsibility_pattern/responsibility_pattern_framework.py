@@ -26,10 +26,16 @@ class Responsible(metaclass=ABCMeta):
         self._title = title
         self._next_handler = None
 
+    def get_name(self):
+        return self._name
+
     def get_title(self):
         return self._title
 
     def set_next_handler(self, next_handler):
+        self._next_handler = next_handler
+
+    def get_next_handler(self):
         return self._next_handler
 
     def handle_request(self, request):
