@@ -19,9 +19,24 @@ class Singleton3:
         return self._name
 
 
+@singleton_decorator
+class Singleton4:
+    """使用單例裝飾器修飾一個類別"""
+    def __init__(self, name):
+        self._name = name
+
+    def get_name(self):
+        return self._name
+
+
 tony = Singleton3('Tony')
 karry = Singleton3('Karry')
 print(id(tony), id(karry))
 print(tony.get_name(), karry.get_name())
 print(tony == karry)
 
+henry = Singleton4('Henry')
+zoe = Singleton4('Zoe')
+print(id(henry), id(zoe))
+print(zoe.get_name(), henry.get_name())
+print(zoe == henry)
