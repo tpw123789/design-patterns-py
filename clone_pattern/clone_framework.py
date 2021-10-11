@@ -31,14 +31,15 @@ class Person(Clone):
         print('I am sleeping now.')
 
 
-tony = Person('Tony', 10)
-tony.show_myself()
-tony.coding()
-tony.reading()
-tony.sleeping()
+if __name__ == '__main__':
+    tony = Person('Tony', 10)
+    tony.show_myself()
+    tony.coding()
+    tony.reading()
+    tony.sleeping()
 
-tony1 = tony.clone()
-tony1.show_myself()
-tony1.coding()
-tony1.reading()
-tony1.sleeping()
+    tony1 = tony.clone()
+    tony1.show_myself()
+    tony1.coding()
+    tony1.reading()
+    tony1.sleeping()
