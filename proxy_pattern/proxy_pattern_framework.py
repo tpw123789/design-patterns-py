@@ -10,7 +10,7 @@ class Subject(metaclass=ABCMeta):
         return self._name
     
     @abstractmethod
-    def request(self, content=''):
+    def request(self):
         pass
 
 
@@ -26,12 +26,12 @@ class ProxySubject(Subject):
         super().__init__(name)
         self._real_subject = real_subject
     
-    def request(self, content=''):
+    def request(self):
         self.pre_request()
         if self._real_subject is not None:
-            self._real_subject.request(content)
+            self._real_subject.request()
         self.after_request()
-        
+
     def pre_request(self):
         print('Before Request')
     
@@ -39,7 +39,8 @@ class ProxySubject(Subject):
         print('After Request')
 
 
-realSubject = RealSubject('RealSubject')
-proxySubject = ProxySubject('ProxySubject', realSubject)
-proxySubject.request('This is request...')
+if __name__ == '__main__':
+    realSubject = RealSubject('RealSubject')
+    proxySubject = ProxySubject('ProxySubject', realSubject)
+    proxySubject.request('This is request...')
 
