@@ -40,25 +40,25 @@ class ChineseSocket(ISocket):
         return SocketEntity(3, '八字扁形')
 
 
-class BritishSocket(ISocket):
+class BritishSocket:
     """英標插座"""
-    def get_name(self):
+    def name(self):
         return '英鏢插座'
 
-    def get_socket(self):
+    def socket_interface(self):
         return SocketEntity(3, 'T字方形')
 
 
-class AdapterSocket:
-    """插座轉換器"""
+class AdapterSocket(ISocket):
+    """插座轉換器，將國標插座傳換成英標"""
     def __init__(self, socket):
         self._socket = socket
 
-    def name(self):
-        return self._socket.get_name() + '轉換器'
+    def get_name(self):
+        return self._socket.name() + '轉換器'
 
-    def socket_interface(self):
-        socket = self._socket.get_socket()
+    def get_socket(self):
+        socket = self._socket.socket_interface()
         socket.set_type_of_pin('八字扁形')
         # socket.set_num_of_pin(3)
         return socket
@@ -78,9 +78,9 @@ def test_socket():
     chinese_socket = ChineseSocket()
     can_charge_for_digital_device(chinese_socket.get_name(), chinese_socket.get_socket())
     british_socket = BritishSocket()
-    can_charge_for_digital_device(british_socket.get_name(), british_socket.get_socket())
+    can_charge_for_digital_device(british_socket.name(), british_socket.socket_interface())
     adapt_socket = AdapterSocket(british_socket)
-    can_charge_for_digital_device(adapt_socket.name(), adapt_socket.socket_interface())
+    can_charge_for_digital_device(adapt_socket.get_name(), adapt_socket.get_socket())
 
 
 test_socket()
