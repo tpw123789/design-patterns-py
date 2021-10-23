@@ -17,8 +17,8 @@ class Catalogue:
         self._title = title
         self._chapters = []
 
-    def add_chapter(self, title):
-        self._chapters.append(title)
+    def add_chapter(self, chapter):
+        self._chapters.append(chapter)
 
     def show_info(self):
         print(f'書名: {self._title}')
@@ -52,6 +52,11 @@ class IBook(metaclass=ABCMeta):
 
 class TxtBook(IBook):
     """TXT解析類別"""
+    def __init__(self):
+        self._title = None
+        self._catalogue = None
+        self._page_count = 0
+
     def parse_file(self, file_path):
         # 模擬文檔的解析
         print(f'{file_path}檔解析成功')
@@ -60,10 +65,10 @@ class TxtBook(IBook):
         return True
 
     def get_catalogue(self):
-        catalogue = Catalogue(self._title)
-        catalogue.add_chapter('第一章 標題')
-        catalogue.add_chapter('第二章 標題')
-        return catalogue
+        self._catalogue = Catalogue(self._title)
+        self._catalogue.add_chapter('第一章 標題')
+        self._catalogue.add_chapter('第二章 標題')
+        return self._catalogue
 
     def get_page_count(self):
         return self._page_count
@@ -74,6 +79,11 @@ class TxtBook(IBook):
 
 class EpuBook(IBook):
     """TXT解析類別"""
+    def __init__(self):
+        self._title = None
+        self._catalogue = None
+        self._page_count = 0
+
     def parse_file(self, file_path):
         # 模擬文檔的解析
         print(f'{file_path}檔解析成功')
@@ -82,10 +92,10 @@ class EpuBook(IBook):
         return True
 
     def get_catalogue(self):
-        catalogue = Catalogue(self._title)
-        catalogue.add_chapter('第一章 標題')
-        catalogue.add_chapter('第二章 標題')
-        return catalogue
+        self._catalogue = Catalogue(self._title)
+        self._catalogue.add_chapter('第一章 標題')
+        self._catalogue.add_chapter('第二章 標題')
+        return self._catalogue
 
     def get_page_count(self):
         return self._page_count
@@ -99,8 +109,8 @@ class Outline:
     def __init__(self):
         self._outlines = []
 
-    def add_outline(self, title):
-        self._outlines.append(title)
+    def add_outline(self, chapter):
+        self._outlines.append(chapter)
 
     def get_outlines(self):
         return self._outlines
@@ -109,7 +119,7 @@ class Outline:
 class PdfPage:
     """PDF頁"""
     def __init__(self, page_num):
-        self._page_num =page_num
+        self._page_num = page_num
 
     def get_page_num(self):
         return self._page_num
@@ -120,6 +130,7 @@ class ThirdPdf:
     def __init__(self):
         self._page_size = 0
         self._title = ''
+        self._outline = Outline()
 
     def open(self, file_path):
         print(f'協力廠商庫解析PDF文件:{file_path}')
@@ -131,10 +142,9 @@ class ThirdPdf:
         return self._title
 
     def get_outline(self):
-        outline = Outline()
-        outline.add_outline('第一章 PDF 電子書標題')
-        outline.add_outline('第二章 PDF 電子書標題')
-        return outline
+        self._outline.add_outline('第一章 PDF 電子書標題')
+        self._outline.add_outline('第二章 PDF 電子書標題')
+        return self._outline
 
     def page_size(self):
         return self._page_size
@@ -146,6 +156,7 @@ class ThirdPdf:
 class PdfAdapterBook(ThirdPdf, IBook):
     """對協力廠商的PDF解析庫進行包裝"""
     def __init__(self, third_pdf):
+        super().__init__()
         self._third_pdf = third_pdf
 
     def parse_file(self, file_path):
@@ -182,6 +193,7 @@ class Reader:
 
     def _init_book(self, file_path):
         self._file_path = file_path
+        book_name = os.path.splitext(file_path)[0]
         ext_name = os.path.splitext(file_path)[1]
         if ext_name.lower() == '.epub':
             self._current_book = EpuBook()
