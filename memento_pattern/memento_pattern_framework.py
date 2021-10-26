@@ -17,16 +17,16 @@ class Caretaker:
     def __init__(self):
         self._mementos = {}
 
-    def add_mementos(self, name, memento):
+    def add_memento(self, name, memento):
         self._mementos[name] = memento
 
-    def get_mementos(self, name):
+    def get_memento(self, name):
         return self._mementos[name]
 
 
 class Originator:
     """備份發起人"""
-    def create_mementos(self):
+    def create_memento(self):
         memento = Memento()
         memento.set_attributes(self.__dict__)
         return memento
