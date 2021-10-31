@@ -32,8 +32,8 @@ class ObjectPack:
     def in_using(self):
         return self._in_using
 
-    def set_using(self, is_using):
-        self._in_using = is_using
+    def set_using(self, in_using):
+        self._in_using = in_using
 
     def get_obj(self):
         return self._obj
@@ -53,7 +53,9 @@ class PowerBankBox:
         if item is None:
             print('沒有可用電源!')
         elif not item.in_using():
+            # 如果非使用中，設定為使用中
             item.set_using(True)
+            # 取得行動電源
             result = item.get_obj()
         else:
             print(f'電源{serial_num}，已被借用!')
@@ -63,6 +65,7 @@ class PowerBankBox:
         """歸還移動電源"""
         item = self._pools.get(serial_num)
         if item is not None:
+            # 設定歸還行動電源為非使用中
             item.set_using(False)
             print(f'{serial_num}電源，已歸還!')
 
