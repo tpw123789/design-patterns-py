@@ -14,15 +14,15 @@ class FilterChain(Filter):
     def __init__(self):
         self._filters = []
 
-    def add_element(self, element):
-        self._filters.append(element)
+    def add_filter(self, _filter):
+        self._filters.append(_filter)
 
-    def remove_element(self, element):
-        self._filters.remove(element)
+    def remove_filter(self, _filter):
+        self._filters.remove(_filter)
 
     def do_filter(self, elements):
-        for element in self._filters:
-            elements = element.do_filter(elements)
+        for _filter in self._filters:
+            elements = _filter.do_filter(elements)
         return elements
 
 
