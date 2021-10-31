@@ -1,7 +1,6 @@
 from abc import ABCMeta, abstractmethod
 import logging
 import time
-from re import S
 
 logging.basicConfig(level=logging.INFO)
 
@@ -48,14 +47,14 @@ class ObjectPool(metaclass=ABCMeta):
         # 如果找到空閒物件，直接返回
         obj = self._find_free_object()
         if obj is not None:
-            logging.info(f'{id(obj)}對象已被占用，time:{time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))}')
+            logging.info(f'{id(obj):x}對象已被占用，time:{time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))}')
             return obj
-        # 如果物件集區未滿，增加新物件
+        # 如果物件集區未滿，增加新物件，初始為10個物件
         if len(self._pools) < ObjectPool.MaxNumObjects:
             pooled_object = self.add_object()
             if pooled_object is not None:
                 pooled_object.set_busy(True)
-                logging.info(f'{id(obj)}對象已被占用，time:{time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))}')
+                logging.info(f'{id(obj):x}對象已被占用，time:{time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))}')
             return pooled_object.get_object()
         # 物件集區已沒有空嫌物件，返回None
         return None
@@ -65,7 +64,7 @@ class ObjectPool(metaclass=ABCMeta):
         for pooled_obj in self._pools:
             if pooled_obj.get_object() == obj:
                 pooled_obj.set_busy(False)
-                logging.info(f'{id(obj)}對象已歸還，time:{time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))}')
+                logging.info(f'{id(obj):x}對象已歸還，time:{time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))}')
                 break
 
     def add_object(self):
@@ -85,6 +84,7 @@ class ObjectPool(metaclass=ABCMeta):
         """查找空閒物件"""
         obj = None
         for pooled_obj in self._pools:
+            # 如果 obj not busy，返回obj，如果都busy返回None
             if not pooled_obj.is_busy():
                 obj = pooled_obj.get_object()
                 pooled_obj.set_busy(True)
